@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjoeun.dao.MyBatisDAO"> <!-- mapper 역할을 하는 인터페이스 -->
+	
+	<!-- 쪽지 전송(저장) -->
+	<insert id="sendmessage" parameterType="meo">
+		insert into message (idx,transempno,receiveempno,title,content,attachedfile,realfilename) 
+			values (message_idx_seq.nextval,#{transempno},#{receiveempno},#{title},#{content},#{attachedfile},#{realfilename})
+	</insert>
+	
+	<!-- 받은 쪽지 count -->
+	<select id="receiveMessageSelectCount" parameterType="int" resultType="int">
+		select count(*) from message where receiveempno = #{empno} and status = 'NO'
+	</select>
+	
+	<!-- 받은 쪽지 list  -->
+	<select id="receiveMessageSelectList" parameterType="param" resultType="meo">
+		<![CDATA[
+			select * from (
+				select rownum rnum, KK.* from( 
+					select * from message where receiveempno = #{empno} and status = 'NO' order by idx desc
+				) KK where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<!-- 보낸 쪽지 count -->
+	<select id="sendMessageSelectCount" parameterType="int" resultType="int">
+		select count(*) from message where TRANSEMPNO = #{empno}
+	</select>
+	
+	<!-- 보낸 쪽지 list -->
+	<select id="sendMessageSelectList" parameterType="param" resultType="meo">
+		<![CDATA[
+			select * from (
+				select rownum rnum, KK.* from( 
+					select * from message where TRANSEMPNO = #{empno} order by idx desc
+				) KK where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+
+	<!-- 휴지통 쪽지 count -->
+	<select id="trashMessageSelectCount" parameterType="int" resultType="int">
+		select count(*) from message where receiveempno = #{empno} and status = 'YES'
+	</select>
+	
+	<!-- 휴지통 쪽지 list -->
+	<select id="trashMessageSelectList" parameterType="param" resultType="meo">
+		<![CDATA[
+			select * from (
+				select rownum rnum, KK.* from( 
+					select * from message where receiveempno = #{empno} and status = 'YES' order by idx desc
+				) KK where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<!-- 쪽지 읽기 -->
+	<select id="messageSelectByIdx" parameterType="int" resultType="meo">
+		select * from message where idx = #{idx}
+	</select>
+	
+	<!-- 쪽지 읽음 -->
+	<update id="updateStatus" parameterType="meo">
+		update message set read='YES' where idx = #{idx}
+	</update>
+	
+	<!-- 쪽지 받은 쪽지함에서 삭제 -->
+	<update id="messageGoTrash" parameterType="meo">
+		update message set status='YES' where idx = #{idx}
+	</update>
+
+	<!-- 쪽지 복구 -->
+	<update id="messageRestore" parameterType="meo">
+		update message set status='NO' where idx = #{idx}
+	</update>
+
+	<!-- 쪽지 휴지통에서 삭제 -->
+	<delete id="messageDelete" parameterType="meo">
+		update message set status='DEL' where idx = #{idx}
+	</delete>
+	
+	<!-- 안읽은 쪽지 count -->
+	<select id="noreadCount" parameterType="int" resultType="int">
+		select count(*) from message where receiveempno = #{empno} and read = 'NO'
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

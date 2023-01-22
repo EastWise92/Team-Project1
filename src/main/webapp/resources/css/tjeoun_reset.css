@@ -1,0 +1,21 @@
+@charset "utf-8";
+/*reset*/
+body,header,ul,li,div,h1,h2,h3,h4,h5,p,iframe,footer{margin:0;padding:0;}
+ul{list-style:none;}
+a{text-decoration:none;color:#333;}
+img{border:0;vertical-align:top;}
+
+
+/*font*/
+@font-face{
+    font-family:이순신 돋움체;
+    src:url('../font/woff/이순신돋움체B.woff') format('woff')
+}
+@font-face{
+    font-family:여기어때;
+    src:url('../font/woff/Jalnan.woff') format('woff')
+}
+@font-face{
+    font-family:나눔바른고딕;
+    src:url('../font/woff/NanumBarunGothic.woff') format('woff')
+}

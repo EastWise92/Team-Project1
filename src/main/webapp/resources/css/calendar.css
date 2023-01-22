@@ -1,0 +1,125 @@
+.calendar {
+	width: 100%;
+	margin: auto;
+}
+
+.calendar .navigation {
+	margin : 15px 0;
+	text-align: center;
+	font-size: 25px;
+	vertical-align: middle;
+}
+
+.calendar .navigation > a {
+	font-weight: bold;
+	margin: 5px;
+}
+
+.calendar .navigation span {
+	margin: 5px;
+}
+
+.calendar_head {
+	display: flex;
+}
+
+.calendar_head > div:nth-child(1) {
+	width: 67%;
+	text-align: right;
+}
+
+.calendar_head > div:nth-child(2) {
+	text-align: right;
+	width: 33%;
+	padding: 6px 0px;
+	line-height: 39px;
+}
+
+
+.con1{
+	position:relative;
+}
+
+.calendar_body {
+	width: 100%;
+	background-color: #FFFFFF;
+	border: 1px solid white;
+	border-collapse: collapse;
+	z-index: 99;
+}
+
+.calendar_body thead tr td {
+	width: 100px;
+	height: 30px;
+	font-weight: bold;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.sat {
+	color: #529dbc;
+}
+
+.sun {
+	color: #DD5353;
+}
+
+.calendar_body tbody {
+	background-color: #EFEFEF;
+	text-align: left;
+	vertical-align: top;
+}
+
+.calendar_body .today {
+	background-color: #c9c9c9;
+}
+
+.dolist{
+	width:100%;
+	height: 40px;
+	overflow: hidden;
+}
+
+.calendar_body tbody tr td{
+	border: 1px solid white;
+	padding: 5px;
+}
+
+.calendar_body tbody td:hover{
+	background: rgba(28, 101, 140, 0.1);
+	cursor: pointer;
+}
+
+.calendar_body tbody .dolist:hover{
+	cursor: pointer;
+	height: 200px;
+	width: 150px;
+}
+
+.calendar_body tbody tr td div:nth-child(1){
+	font-weight: bold;
+	font-size: 15px;
+	display: flex;
+	margin-bottom: 5px;
+}
+
+.calendar_body tbody tr td div:nth-child(1) div:nth-child(1){
+	width: 20%;
+}
+
+.calendar_body tbody tr td div:nth-child(1) div:nth-child(2){
+	width: 80%;
+	text-align: right;
+	font-size: 11px;
+
+}
+
+.calendar_body p {
+	font-size: 10px;
+	border-radius: 5px;
+	padding-left: 5px;
+	color: #222222;
+	padding-bottom: 2px;
+}
+

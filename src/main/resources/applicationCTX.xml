@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="empvo" class="com.tjoeun.vo.EmpVO"/>
+	<bean id="emplist" class="com.tjoeun.vo.EmpList"/>
+
+	<bean id="boardvo" class="com.tjoeun.vo.BoardVO"/>
+	<bean id="boardlist" class="com.tjoeun.vo.BoardList"/>
+	
+	<bean id="meo" class="com.tjoeun.vo.MessageVO"/>
+	<bean id="melist" class="com.tjoeun.vo.MessageList"/>
+	
+	<bean id="reportvo" class="com.tjoeun.vo.ReportVO"/>
+	<bean id="reportlist" class="com.tjoeun.vo.ReportList"/>
+	
+	<bean id="todovo" class="com.tjoeun.vo.TodoVO"/>
+	<bean id="todolist" class="com.tjoeun.vo.TodoList"/>
+	
+	<bean id="meetroomvo" class="com.tjoeun.vo.MeetRoomVO"/>
+	<bean id="meetroomlist" class="com.tjoeun.vo.MeetRoomList"/>
+	
+	<bean id="attendvo" class="com.tjoeun.vo.AttendVO"/>
+	<bean id="attendlist" class="com.tjoeun.vo.AttendList"/>
+	
+	<bean id="payslipvo" class="com.tjoeun.vo.PaySlipVO"/>
+	
+	<bean id="datedata" class="com.tjoeun.vo.DateData"/>
+	<bean id="param" class="com.tjoeun.vo.Param"/>
+
+	<bean id="approvalvo" class="com.tjoeun.vo.ApprovalVO"/>
+	<bean id="approvallist" class="com.tjoeun.vo.PagingInfo"></bean>
+
+</beans>

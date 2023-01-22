@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+/*con_middle*/
+
+.tjcontainer .con_middle .con1{
+    background-color:#fff;
+    width:850px;
+    height: 510px;
+    margin:20px auto;
+    box-sizing: border-box;
+    padding:10px;
+    border:1px solid #000;
+    box-shadow: 2px 3px 5px 0px;
+}
+
+.tjcontainer .con_middle .con_bottom{
+    background-color:#fff;
+    width:850px;
+    height:180px;
+    margin:30px auto;
+    display: flex;
+}
+.tjcontainer .con_middle .con_bottom .con2{
+    width:400px;
+    height:180px;
+    padding:10px;
+    border:1px solid #000;
+    box-shadow: 2px 3px 5px 0px;
+    margin-right:50px;
+}
+.tjcontainer .con_middle .con_bottom .con3{
+    width:400px;
+    height:180px;
+    padding:10px;
+    border:1px solid #000;
+    box-shadow: 2px 3px 5px 0px;
+}

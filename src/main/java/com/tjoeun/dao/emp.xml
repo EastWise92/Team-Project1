@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjoeun.dao.MyBatisDAO"> <!-- mapper 역할을 하는 인터페이스 -->
+
+	<select id="confirmEmpno" parameterType="int" resultType="int">
+		select count(*) from emp where empno=#{empno}
+	</select>
+	
+	<select id="selectlogin" parameterType="int" resultType="empvo">
+		select * from emp where empno=#{empno}
+	</select>
+	
+	<select id="countByDept" parameterType="int" resultType="int">
+		select count(*) from emp where deptno = #{deptno} and position != 'waiting'
+	</select>
+
+	<select id="selectByDept" parameterType="hash" resultType="empvo">
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select * from emp where permission != 'waiting' and deptno = #{deptno} order by decode(position,'대표이사','1','전무','2','부장','3','팀장','4','차장','5','과장','6','대리','7','사원','8')
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<select id="registerCheck" parameterType="String" resultType="empvo">
+		select * from emp where trim(empno) = #{empno}
+	</select>
+	
+	<insert id="register" parameterType="empvo">
+		insert into emp (empno, name, password, pernum, email, gender) values (#{empno}, #{name}, #{password}, #{pernum}, #{email}, #{gender})
+	</insert>
+	
+	<update id="registerUpdate" parameterType="empvo">
+		update emp set password = #{password} where empno = #{empno}
+	</update>
+
+	<!-- ========================================================== Manager ========================================================== -->
+	<select id="countwaiting" resultType="int">
+		select count(*) from emp where permission='waiting'
+	</select>
+	
+	<select id="selectwaiting" parameterType="param" resultType="empvo">
+		select * from emp where permission='waiting'
+	</select>
+	
+	<update id="account_approval" parameterType="empvo">
+		update emp set position=#{position}, deptno=#{deptno}, incnum=#{incnum}, hiredate=#{hiredate}, permission=#{permission} where empno=#{empno}
+	</update>
+	
+	<select id="countemp" resultType="int">
+		select count(*) from emp where permission != 'waiting'
+	</select>
+	
+	<select id="selectemp" parameterType="hash" resultType="empvo">
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select * from emp where permission != 'waiting' order by deptno asc, decode(position,'대표이사','1','전무','2','부장','3','팀장','4','차장','5','과장','6','대리','7','사원','8')
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<select id="countByName" parameterType="String" resultType="int">
+		select count(*) from emp where (name like '%'||#{searchname}||'%')
+	</select>
+	
+	<select id="selectByName" parameterType="param" resultType="empvo">
+    	<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select * from emp where (name like '%'||#{searchname}||'%')
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>			
+	</select>
+	
+	<select id="countByMultiEmp" parameterType="param" resultType="int">
+		select count(*) from emp where deptno = #{searchdeptno} and (name like '%'||#{searchname}||'%')
+	</select>
+	
+		<select id="selectByMultiEmp" parameterType="param" resultType="empvo">
+    	<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select * from emp where deptno = #{searchdeptno} and (name like '%'||#{searchname}||'%')
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>			
+	</select>
+	
+	<update id="updatePMS" parameterType="empvo">
+		update emp set permission = #{permission} where empno = #{empno}
+	</update>
+
+	<select id ="selectMemberAllForApproval" parameterType="int" resultType="empvo">
+		select empno, name, position, deptno from emp where empno != #{empno}
+	</select>
+
+	<select id ="selectMemberByName" parameterType="String" resultType="empvo">
+		select empno, name, position, deptno from emp
+		<where>
+			<if test="value != null and value != ''">
+				name like CONCAT(CONCAT('%',#{value}),'%')
+			</if>
+		</where>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

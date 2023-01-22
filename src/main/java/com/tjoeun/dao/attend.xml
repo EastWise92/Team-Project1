@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjoeun.dao.MyBatisDAO"> <!-- mapper 역할을 하는 인터페이스 -->
+
+	<!-- 전체조회 -->
+	<select id="countAttnedAll" resultType="int">
+		select count(*) from attend
+	</select>
+	
+	<select id="selectAttendAll" parameterType="hash" resultType="attvo">	
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select a.empno, b.deptno, b.name, a.attdate, a.intime, a.outtime, a.worktime, a.etc, a.deducedate
+				    	from attend a inner join emp b
+				   		on a.empno = b.empno
+				   		order by attdate desc, empno asc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<!-- 부서조회 -->
+	<select id="countAttendByDept" parameterType="int" resultType="int">
+		select count(*)
+		    from attend a inner join emp b
+		    on a.empno = b.empno
+		    where deptno = #{deptno}
+	</select>
+	
+	<select id="selectAttendByDept" parameterType="hash" resultType="attvo">	
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select a.empno, b.deptno, b.name, a.attdate, a.intime, a.outtime, a.worktime, a.etc, a.deducedate
+				    	from attend a inner join emp b
+				   		on a.empno = b.empno
+				   		where deptno=#{deptno}
+				   		order by attdate desc, empno asc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<!-- 날짜 조회 -->
+	<select id="countAttendByDate" parameterType="String" resultType="int">
+		select count(*)
+		    from attend a inner join emp b
+		    on a.empno = b.empno
+		    where TO_CHAR(attdate, 'YYYY-MM-DD') = #{searchdate}
+	</select>
+	
+	<select id="selectAttendByDate" parameterType="param" resultType="attvo">	
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select a.empno, b.deptno, b.name, a.attdate, a.intime, a.outtime, a.worktime, a.etc, a.deducedate
+				    	from attend a inner join emp b
+				   		on a.empno = b.empno
+				   		where TO_CHAR(attdate, 'YYYY-MM-DD') = #{searchdate}
+				   		order by attdate desc, empno asc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<!-- 이름 조회 -->
+	<select id="countAttendByName" parameterType="String" resultType="int">
+		select count(*)
+		    from attend a inner join emp b
+		    on a.empno = b.empno
+		    where name like '%'||#{searchname}||'%'
+	</select>
+	
+	<select id="selectAttendByName" parameterType="param" resultType="attvo">	
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select a.empno, b.deptno, b.name, a.attdate, a.intime, a.outtime, a.worktime, a.etc, a.deducedate
+				    	from attend a inner join emp b
+				   		on a.empno = b.empno
+				   		where name like '%'||#{searchname}||'%'
+				   		order by attdate desc, empno asc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>	
+	
+	<!-- 부서&날짜 조회 -->
+	<select id="countAttendByDeptDate" parameterType="param" resultType="int">
+		select count(*)
+		    from attend a inner join emp b
+		    on a.empno = b.empno
+		    where deptno = #{searchdeptno} and TO_CHAR(attdate, 'YYYY-MM-DD') = #{searchdate}
+	</select>
+	
+	<select id="selectAttendByDeptDate" parameterType="param" resultType="attvo">	
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select a.empno, b.deptno, b.name, a.attdate, a.intime, a.outtime, a.worktime, a.etc, a.deducedate
+				    	from attend a inner join emp b
+				   		on a.empno = b.empno
+				   		where deptno = #{searchdeptno} and TO_CHAR(attdate, 'YYYY-MM-DD') = #{searchdate}
+				   		order by attdate desc, empno asc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+		
+	<!-- 날짜&이름 조회 -->
+	<select id="countAttendByDateName" parameterType="param" resultType="int">
+		select count(*)
+		    from attend a inner join emp b
+		    on a.empno = b.empno
+		    where TO_CHAR(attdate, 'YYYY-MM-DD') = #{searchdate} and name like '%'||#{searchname}||'%'
+	</select>
+	
+	<select id="selectAttendByDateName" parameterType="param" resultType="attvo">	
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select a.empno, b.deptno, b.name, a.attdate, a.intime, a.outtime, a.worktime, a.etc, a.deducedate
+				    	from attend a inner join emp b
+				   		on a.empno = b.empno
+				   		where TO_CHAR(attdate, 'YYYY-MM-DD') = #{searchdate} and name like '%'||#{searchname}||'%'
+				   		order by attdate desc, empno asc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<select id="countDayoffByEmpno" parameterType="int" resultType="int">
+		select count(*) from attend where empno = #{empno} and etc is not null
+	</select>	
+	
+	<select id="selectDayoffByEmpno" parameterType="param" resultType="attvo">
+		<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select a.empno, b.deptno, b.name, a.attdate, a.intime, a.outtime, a.worktime, a.etc, a.deducedate
+				    	from attend a inner join emp b
+				   		on a.empno = b.empno
+				   		where a.empno = #{empno} and etc is not null
+				   		order by attdate desc, empno asc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>	
+	</select>
+	
+	<!-- 급여 명세서 -->
+	<select id="showPaySlip" parameterType="param" resultType="payvo">
+		select * from payslip where empno = #{empno} and TO_CHAR(paymentdate, 'yyyy-MM-dd') = #{searchdate}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

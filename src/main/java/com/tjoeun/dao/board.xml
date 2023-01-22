@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjoeun.dao.MyBatisDAO"> <!-- mapper 역할을 하는 인터페이스 -->
+
+	<select id="selectCount" parameterType="String" resultType="int">
+		select count(*) from board where category = #{category} and seq = 0
+	</select>
+
+	<select id="selectList" parameterType="param" resultType="boardvo">
+	
+		<![CDATA[
+			select * from (	
+				select rownum rnum, TT.* from (
+					select * from board where category = #{category} and seq = 0 order by idx desc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+
+	</select>
+
+	<select id="selectQNACount" parameterType="String" resultType="int">
+		select count(*) from board where category = #{category}
+	</select>
+
+	<select id="selectQNAList" parameterType="param" resultType="boardvo">
+	
+		<![CDATA[
+			select * from (	
+				select rownum rnum, TT.* from (
+					select * from board where category = #{category} order by gup desc, seq asc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+
+	</select>
+
+	<select id="selectContentByIdx" parameterType="int" resultType="boardvo">
+		select * from board where idx = #{idx}
+	</select>
+
+	<insert id="boardinsert" parameterType="boardvo">
+		insert into board (idx,category, empno, name, title, content, deptno, gup)
+		values(board_idx_seq.nextval,#{category},#{empno},#{name},#{title},#{content},#{deptno},board_idx_seq.currval)
+	</insert>
+
+	<insert id="insertattach" parameterType="boardvo">
+		insert into board (idx,category, empno, name, title, content, deptno, gup, attachedfile,realfilename )
+		values (board_idx_seq.nextval,#{category},#{empno},#{name},#{title},#{content},#{deptno},board_idx_seq.currval,#{attachedfile},#{realfilename})
+	</insert>
+
+	<insert id="answerinsert" parameterType="boardvo">
+		insert into board (idx,category, empno, name, title, content, deptno, gup, seq)
+		values(board_idx_seq.nextval,#{category},#{empno},#{name},#{title},#{content},#{deptno},${gup}, 1)
+	</insert>
+
+	<delete id="contentdelete" parameterType="boardvo">
+		delete board where (idx = #{idx} or gup = #{idx}) and seq >= #{seq}
+	</delete>
+
+	<delete id="commentdelete" parameterType="int">
+		delete board where idx = #{idx}
+	</delete>
+
+	<update id="boardupdate" parameterType="boardvo">
+		update board set content=#{content} where idx = #{idx}
+	</update>
+	
+	<!-- 파일 수정 -->
+	<update id="data_update" parameterType="boardvo">
+		update board set title=#{title}, content = #{content}, attachedfile=#{attachedfile}, realfilename=#{realfilename} where idx = #{idx}
+	</update>
+
+	<update id="increment_hit" parameterType="int">
+		update board set hit = hit + 1 where idx = #{idx}
+	</update>
+
+	<select id="selectCommentCount" parameterType="int" resultType="int">
+		select count(*) from board where gup = #{idx} and seq > 0
+	</select>
+
+	<select id="selectCommentList" parameterType="hash" resultType="boardvo">
+		<![CDATA[
+			select * from (	
+				select rownum rnum, TT.* from (
+					select * from board where gup = #{idx} and seq > 0 order by idx desc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+
+	<insert id="commentinsert" parameterType="boardvo">
+		insert into board (idx,
+		category, empno, name, content, deptno, gup, seq) values
+		(board_idx_seq.nextval,
+		#{category},#{empno},#{name},#{content},#{deptno},#{idx}, 1)
+	</insert>
+
+	<select id="mywrite_selectCount" parameterType="int" resultType="int">
+		select count(*) from board where empno = #{empno} and seq = 0
+	</select>
+
+	<select id="mywrite_selectList" parameterType="hash" resultType="boardvo">
+    	<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select * from board where empno = #{empno} and seq = 0 order by idx desc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	
+	<!-- 검색 -->
+	<select id="selecCountMulti" parameterType="param" resultType="int">
+		SELECT COUNT(*) FROM board WHERE category = #{category} 
+			<if test='searchcategory =="제목"'>
+				and title like '%'||#{searchobj}||'%'
+			</if>
+			<if test='searchcategory =="작성자"'>
+				and name like '%'||#{searchobj}||'%'
+			</if>
+			<if test='searchcategory =="제목+작성자"'>
+				and (name like '%'||#{searchobj}||'%' or title like '%'||#{searchobj}||'%')
+			</if>
+	</select>
+
+	<select id="selectListMulti" parameterType="param" resultType="boardvo">
+    	<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select * from board where category = #{category}
+					]]>
+					<if test='searchcategory =="제목"'>
+						and title like '%'||#{searchobj}||'%'
+					</if>
+					<if test='searchcategory =="작성자"'>
+						and name like '%'||#{searchobj}||'%'
+					</if>
+					<if test='searchcategory =="제목+작성자"'>
+						and (name like '%'||#{searchobj}||'%' or title like '%'||#{searchobj}||'%')
+					</if>
+					<![CDATA[
+					order by idx desc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<!-- 메인화면 공지  -->
+	<select id="selectNoticeList" parameterType="String" resultType="boardvo">
+		<![CDATA[
+			select * from (
+				select * from board where category=#{category} order by idx desc
+			) where ROWNUM <= 10
+		]]>
+	</select>
+	
+	<!-- 메인화면 자료실  -->
+	<select id="selectDataList" parameterType="String" resultType="boardvo">
+		<![CDATA[
+			select * from (
+				select * from board where category=#{category} order by idx desc
+			) where ROWNUM <= 10
+		]]>
+	</select>
+	
+	<!-- 매니저 게시글 관리 -->
+	<select id="AllBoardCount" resultType="int">
+		select count(*) from board where seq = 0
+	</select>
+
+	<select id="AllBoardSelect" parameterType="param" resultType="boardvo">
+	
+		<![CDATA[
+			select * from (	
+				select rownum rnum, TT.* from (
+					select * from board where seq = 0 order by idx desc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+
+	</select>
+	
+	<select id="NoCatCountMulti" parameterType="param" resultType="int">
+		SELECT COUNT(*) FROM board WHERE 
+			<if test='searchcategory =="작성자"'>
+				name like '%'||#{searchobj}||'%'
+			</if>
+			<if test='searchcategory =="제목"'>
+				title like '%'||#{searchobj}||'%'
+			</if>
+			<if test='searchcategory =="제목+작성자"'>
+				name like '%'||#{searchobj}||'%' or title like '%'||#{searchobj}||'%'
+			</if>
+	</select>
+	
+	<select id="NoCatSelectMulti" parameterType="param" resultType="boardvo">
+    	<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select * from board where
+					]]>
+					<if test='searchcategory =="작성자"'>
+						name like '%'||#{searchobj}||'%'
+					</if>
+					<if test='searchcategory =="제목"'>
+						title like '%'||#{searchobj}||'%'
+					</if>
+					<if test='searchcategory =="제목+작성자"'>
+						name like '%'||#{searchobj}||'%' or title like '%'||#{searchobj}||'%'
+					</if>
+					<![CDATA[
+					order by idx desc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<update id="categoryupdate" parameterType="boardvo">
+		update board set category = #{category} where idx=#{idx}
+	</update>
+	
+	<!--내가 쓴 글 검색-->
+	<select id="myWriteSelecCountMulti" parameterType="param" resultType="int">
+		SELECT COUNT(*) FROM board where 
+			<if test='searchcategory =="제목"'>
+				title like '%'||#{searchobj}||'%'
+			</if>
+			<if test='searchcategory =="내용"'>
+				content like '%'||#{searchobj}||'%'
+			</if>
+			<if test='searchcategory =="제목+내용"'>
+				title like '%'||#{searchobj}||'%' or content like '%'||#{searchobj}||'%'
+			</if>
+	</select>
+
+	<select id="myWriteselectListMulti" parameterType="param" resultType="boardvo">
+    	<![CDATA[
+			select * from (   
+				select rownum rnum, TT.* from (
+					select * from board where 
+					]]>
+					<if test='searchcategory =="제목"'>
+						TITLE like '%'||#{searchobj}||'%'
+					</if>
+					<if test='searchcategory =="내용"'>
+						CONTENT like '%'||#{searchobj}||'%'
+					</if>
+					<if test='searchcategory =="제목+내용"'>
+						TITLE like '%'||#{searchobj}||'%' or CONTENT like '%'||#{searchobj}||'%'
+					</if>
+					<![CDATA[
+					order by idx desc
+				) TT where rownum <= #{endNo}
+			) where rnum >= #{startNo}
+		]]>
+	</select>
+</mapper>
+
+
+
+
+

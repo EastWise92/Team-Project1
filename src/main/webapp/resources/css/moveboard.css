@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+.moveboardback{
+	position:absolute;
+	z-index:998;
+	top:0;
+	left:0;
+	width:100%;
+	height:969px;
+	background-color:rgba(0, 0, 0, 0.5);
+	display: none;
+}
+.moveboarddiv{
+    border: 2px solid blue;
+    background-color: #fff;
+    padding: 10px;
+    position: absolute;
+    top:30%;
+    left:40%;
+    border:1px solid #D8D2CB;
+    border-radius:10px;
+    box-shadow: 2px 0px 5px 0px;
+    padding: 0px;
+    width:400px;
+	display: none;
+	box-sizing: border-box;
+}
+.moveboarddiv .top{
+   height:50px;
+   border-radius:10px 10px 0 0;
+   background-color:#D8D2CB;
+   line-height:50px;
+}
+.moveboarddiv .top .top1{
+   float:left;
+   font-size:20px;
+   margin-left:130px;
+   font-weight:bold;
+}
+.moveboarddiv .top .top2{
+   font-size:50px;
+   margin-right: 10px;
+   color:#fff;
+   float:right;
+}
+.moveboarddiv .top .top2:hover{
+   cursor:pointer;
+   font-weight:bold;
+}
+
+.moveboarddiv .middle{
+	padding: 20px 20px 10px 10px;
+}
+.moveboarddiv table{
+	width: 100%;
+
+}
+.moveboarddiv table tr{
+	height:50px;
+}
+
+.moveboarddiv table tr th{	
+	width: 20%;
+	text-align: center;
+}
+
+.moveboarddiv table tr td{
+	width: 80%;
+}
+
+

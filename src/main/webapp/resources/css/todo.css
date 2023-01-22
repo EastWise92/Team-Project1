@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+.inserttodoback{
+	position:absolute;
+	z-index:998;
+	top:0;
+	left:0;
+	width:100%;
+	height:969px;
+	background-color:rgba(0, 0, 0, 0.5);
+	display: none;
+}
+.inserttodo{
+    border: 2px solid blue;
+    background-color: #fff;
+    padding: 10px;
+    position: absolute;
+    top:30%;
+    left:40%;
+    border:1px solid #D8D2CB;
+    border-radius:10px;
+    box-shadow: 2px 0px 5px 0px;
+    padding: 0;
+	display: none;
+}
+.inserttodo .change_top{
+   height:40px;
+   border-radius:10px 10px 0 0;
+   background-color:#D8D2CB;
+   margin-bottom:20px;
+}
+.inserttodo .change_top .top1{
+   float:left;
+   font-size:18px;
+   margin:10px 20px 0 20px;
+   font-weight:bold;
+}
+.inserttodo .change_top .top2{
+   font-size:30px;
+   margin:10px 10px 0 30px;
+   color:#fff;
+   float:right;
+}
+.inserttodo .change_top .top2:hover{
+   cursor:pointer;
+   font-weight:bold;
+}
+.inserttodo table{
+	margin:20px;
+}
+.inserttodo table tr{
+	height:50px;
+}
+.inserttodo table tr .pwcheck{
+	padding-bottom:20px;
+	box-sizing:border-box;
+}
+.inserttodo table tr td{
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.inserttodo select option{
+	height: 100px;
+}
+
+.todoarea div {
+	margin-bottom: 5px;
+}
+
+.todoarea div p {
+	border-radius: 5px;
+	padding: 0 7px;
+}
+
+/* ----------------------------- */
+
+.updatetodoback{
+	position:absolute;
+	z-index:998;
+	top:0;
+	left:0;
+	width:100%;
+	height:969px;
+	background-color:rgba(0, 0, 0, 0.5);
+	display: none;
+}
+.updatetodo{
+    border: 2px solid blue;
+    background-color: #fff;
+    padding: 10px;
+    position: absolute;
+    top:30%;
+    left:40%;
+    border:1px solid #D8D2CB;
+    border-radius:10px;
+    box-shadow: 2px 0px 5px 0px;
+    padding: 0;
+	display: none;
+}
+.updatetodo .change_top{
+   height:40px;
+   border-radius:10px 10px 0 0;
+   background-color:#D8D2CB;
+   margin-bottom:20px;
+}
+.updatetodo .change_top .top1{
+   float:left;
+   font-size:18px;
+   margin:10px 20px 0 20px;
+   font-weight:bold;
+}
+.updatetodo .change_top .top2{
+   font-size:30px;
+   margin:10px 10px 0 30px;
+   color:#fff;
+   float:right;
+}
+.updatetodo .change_top .top2:hover{
+   cursor:pointer;
+   font-weight:bold;
+}
+.updatetodo table{
+	margin:20px;
+}
+.updatetodo table tr{
+	height:50px;
+}
+.updatetodo table tr .pwcheck{
+	padding-bottom:20px;
+	box-sizing:border-box;
+}
+.updatetodo table tr td{
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.updatetodo select option{
+	height: 100px;
+}
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjoeun.dao.MyBatisDAO"> <!-- mapper 역할을 하는 인터페이스 -->
+	
+	<select id="maxidx" parameterType="todovo" resultType="int" >
+		select NVL(MAX(idx), 0) from todo where empno=#{empno} and TO_CHAR(writedate, 'YYYY-MM-DD')=TO_CHAR(#{writedate}, 'YYYY-MM-DD')
+	</select>
+	
+	<insert id="todoinsert" parameterType="todovo">
+		insert into todo (idx, empno, deptno, content, shareset, colorcode, writedate) values(#{idx},#{empno},#{deptno},#{content}, #{shareset}, #{colorcode}, #{writedate})
+	</insert>
+	
+	<select id="todolist" parameterType="todovo" resultType="todovo">
+		select * from todo where empno=#{empno} and TO_CHAR(writedate, 'YYYY-MM-DD')=#{setdate} order by idx asc
+	</select>
+	
+	<select id="caltodolist" parameterType="todovo" resultType="todovo">
+		select * from todo where TO_CHAR(writedate, 'YYYY-MM-DD')=#{setdate} and (shareset = 'ALL' or (shareset = 'TEAM' and deptno = #{deptno}) or (shareset = 'NO' and empno = #{empno})) order by idx asc
+	</select>
+	
+	<select id="caltodolistShareset" parameterType="todovo" resultType="todovo">
+		select * from todo where shareset = #{shareset}
+			<if test='shareset =="NO"'> and empno=#{empno} </if>
+			<if test='shareset =="TEAM"'> and deptno=#{deptno} </if>
+			<if test='shareset =="ALL"'> </if>
+		and TO_CHAR(writedate, 'YYYY-MM-DD')=#{setdate} order by idx asc
+	</select>
+	
+	<update id="todoupdateS" parameterType="todovo">
+		update todo set status=#{status} where idx=#{idx} and empno=#{empno} and TO_CHAR(writedate, 'YYYY-MM-DD')=#{setdate}
+	</update>
+	
+	<delete id="tododelete" parameterType="todovo">
+		delete todo WHERE empno = #{empno} and TO_CHAR(writedate, 'YYYY-MM-DD') = #{setdate} and idx=#{idx}
+	</delete>
+	
+	<update id="todoupdate" parameterType="todovo">
+		update todo set content = #{content}, colorcode = #{colorcode}, shareset = #{shareset} where idx = #{idx} and empno = #{empno} and TO_CHAR(writedate, 'YYYY-MM-DD') = #{setdate}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

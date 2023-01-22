@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.tjoeun.vo.BoardVO" alias="boardvo" />
+		<typeAlias type="com.tjoeun.vo.EmpVO" alias="empvo" />
+		<typeAlias type="com.tjoeun.vo.MessageVO" alias="meo" />
+		<typeAlias type="com.tjoeun.vo.TodoVO" alias="todovo" />
+		<typeAlias type="com.tjoeun.vo.MeetRoomVO" alias="mroomvo" />
+		<typeAlias type="com.tjoeun.vo.ApprovalVO" alias="approvalvo" />
+		<typeAlias type="com.tjoeun.vo.AttendVO" alias="attvo" />
+		<typeAlias type="com.tjoeun.vo.PaySlipVO" alias="payvo" />
+		<typeAlias type="com.tjoeun.vo.Param" alias="param"  />
+		<typeAlias type="java.util.HashMap" alias="hash"  />
+	</typeAliases>
+	
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
