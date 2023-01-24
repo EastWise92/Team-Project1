@@ -123,6 +123,89 @@ public class register {
 		mapper.registerUpdate(vo);		
 		return "3";
 	}
+	// 아이디 찾기
+	@RequestMapping("/findIDpage")
+	public String findIDpage(HttpServletRequest request, Model model) {
+		return "findID";
+	}
+	@RequestMapping("/findID")
+	public String findID(HttpServletRequest request,HttpServletResponse response, Model model, EmpVO vo) throws IOException {
+		
+		MyBatisDAO mapper = sqlSession.getMapper(MyBatisDAO.class);
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		int findID = mapper.findID(vo);
+		
+		// jsp에서 가져오는 user정보
+		String name = request.getParameter("name");
+		String pernum = request.getParameter("pernum");
+		request.getParameter("gender");
+		if(name=="") {
+			out.println("<script>if (!alert(\"이름을 입력해주세요.\")) window.location = \"findIDpage\";</script>");
+			out.flush();
+		}else if(pernum=="") {
+			out.println("<script>if (!alert(\"전화번호를 입력해주세요.\")) window.location = \"findIDpage\";</script>");
+			out.flush();
+		}
+		else {
+			if(findID == 0) {
+				out.println("<script>if (!alert(\"회원정보를 정확하게 입력해주세요.\")) window.location = \"findIDpage\";</script>");
+				out.flush();
+			}else {
+				EmpVO empVO = mapper.foundID(vo);
+				model.addAttribute("empVO", empVO);
+			}
+		}
+		return "findID";
+	}
 	
+	
+// 비밀번호 찾기
+	@RequestMapping("/findPWpage")
+	public String findPWpage(HttpServletRequest request, Model model) {
+		/*
+		 * String empno = request.getParameter("empno1");
+		 * System.out.println("findPWpage의 empno : "+ empno); if(empno!="") {
+		 * model.addAttribute("empno",empno); }
+		 */
+		return "findPW";
+	}
+	@RequestMapping("/findPW")
+	public String findPW(HttpServletRequest request,HttpServletResponse response, Model model, EmpVO vo) throws IOException {
+
+		MyBatisDAO mapper = sqlSession.getMapper(MyBatisDAO.class);
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+
+		int findPW = mapper.findPW(vo);
+
+		// jsp에서 가져오는 user정보
+		String empno = request.getParameter("empno");
+		String name = request.getParameter("name");
+		String gender = request.getParameter("gender");
+		String pernum = request.getParameter("pernum");
+
+		if(empno=="") {
+			out.println("<script>if (!alert(\"사원번호(ID)를 입력해주세요.\")) window.location = \"findPWpage\";</script>");
+			out.flush();
+		}else if(name=="") {
+			out.println("<script>if (!alert(\"이름을 입력해주세요.\")) window.location = \"findPWpage\";</script>");
+			out.flush();
+		}else if(pernum=="") {
+			out.println("<script>if (!alert(\"전화번호를 입력해주세요.\")) window.location = \"findPWpage\";</script>");
+			out.flush();
+		}else {
+			if(findPW == 0) {
+				out.println("<script>if (!alert(\"일치하는 회원 정보가 없습니다.\")) window.location = \"findPWpage\";</script>");
+				out.flush();
+			}else {
+				mapper.updatePW(vo);
+				EmpVO empVO = mapper.foundPW(vo);
+				model.addAttribute("empVO", empVO);
+			}
+		}
+		return "findPW";
+	}
 
 }
